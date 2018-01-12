@@ -1,12 +1,13 @@
 package base
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
-	"./fulladdress"
+	"github.com/suizhiyuan/snos/base/fulladdress"
 )
 
 var logger = log.New(os.Stdout, "snos.base", log.Ldate|log.Ltime|log.Lshortfile)
@@ -32,7 +33,7 @@ type CommonType struct {
 }
 
 const (
-	nilHandlerError = error.Error("handler can not be nil")
+	nilHandlerError = errors.New("handler can not be nil")
 )
 
 var handlerStorage func(string, []byte) []byte

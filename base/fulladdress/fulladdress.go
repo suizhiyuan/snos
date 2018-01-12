@@ -49,6 +49,7 @@ func NewFullAddresss(str string) (addr *FullAddresss, err error) {
 	return nil, getUnrecognizeError(str)
 }
 
+// String impl interface fmt.Stringer
 func (addr *FullAddresss) String() (str string) {
 	if ipv4 := addr.IPAddr.To4(); ipv4 == nil {
 		return fmt.Sprintf("[%s]:%d", addr.IPAddr.String(), addr.Port)
