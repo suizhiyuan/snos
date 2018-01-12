@@ -11,7 +11,10 @@ type ParseAddrError struct {
 
 // Error impl interface builtin/error
 func (err ParseAddrError) Error() string {
-	return fmt.Sprintf("parse addr error , intput string (%s)", err.input)
+	if err.innerErr != nil {
+		return fmt.Sprintf("parse (%s) with error : %s, with inner error %v", err.input, err.message, err.innerErr)
+	}
+	return fmt.Sprintf("parse (%s) with error : %s", err.input, err.message)
 }
 
 func getUnrecognizeError(str string) (err ParseAddrError) {

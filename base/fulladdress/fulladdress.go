@@ -50,10 +50,10 @@ func NewFullAddresss(str string) (addr *FullAddresss, err error) {
 }
 
 func (addr *FullAddresss) String() (str string) {
-	if ipv16 := addr.IPAddr.To16; ipv16 != nil {
-		return fmt.Sprintf("[%v]:%v", addr.IPAddr, addr.Port)
+	if ipv4 := addr.IPAddr.To4(); ipv4 == nil {
+		return fmt.Sprintf("[%s]:%d", addr.IPAddr.String(), addr.Port)
 	}
-	return fmt.Sprintf("%v:%v", addr.IPAddr, addr.Port)
+	return fmt.Sprintf("%s:%d", addr.IPAddr.String(), addr.Port)
 }
 
 func parsePort(str string) (port uint16, err error) {
@@ -61,7 +61,7 @@ func parsePort(str string) (port uint16, err error) {
 	if e != nil {
 		return 0, getParsePortFailError("", e)
 	}
-	if interalPort >= 65536 || interalPort <= 0 {
+	if interalPort >= 65536 || interalPort < 0 {
 		return 0, getPortOutOfRangeError("")
 	}
 	return uint16(interalPort), nil
